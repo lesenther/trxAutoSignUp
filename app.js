@@ -10,14 +10,14 @@
     firstName  : 'Logan',
     lastName   : 'Esenther',
     middleName : '',
-    email      : 'le@berkeley.edu',
-    phone      : '510-200-8009',
-    dob        : [7, 2, 1983], // month, day, year
+    email      : atob('bGVAYmVya2VsZXkuZWR1'),
+    phone      : atob('NTEwLTIwMC04MDA5'),
+    dob        : [7, 2, 1983], // m, d, yyyy
 
     className  : 'TRX', // 'Deep Core Strength', 'Cardio Boxing', 'Sparring', 'The Eves Spin'
     targetTime : '5:00 PM', // '4:20 PM', '5:40 PM', - Note this needs to be 5 PM and not 5:00 PM
 
-    signUpTime : '2:29 PM', // noon
+    signUpTime : '12:00 PM', // noon
 
     siteUrl    : 'https://touchstoneclimbing.com/ironworks/fitness-classes-rgp/',
   };
