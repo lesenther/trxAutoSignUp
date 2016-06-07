@@ -1,10 +1,24 @@
 /**
- * URL:  https://touchstoneclimbing.com/ironworks/fitness-classes-rgp/
+ * TRX Auto Sign-Up v1.0
  *
- * var s = document.createElement('script');s.src='http://localhost/autoSignUp/app.js';document.body.appendChild(s);
+ * Possible ways to hook:
+ *  - Use iframe to access page
+ *    - issues accessing elements
+ *  - Add javascript snippet to attach and run script
+ *    - e.g.:
+ *      var s = document.createElement('script');
+ *      s.src='http://localhost/autoSignUp/app.js' // TODO: Move to internet host
+ *      document.body.appendChild(s);
+ *    - Does not work, script gets blocked in Chrome due to XSS safeguards
+ *    - Error message:  Mixed Content: The page at 'https://touchstoneclimbing.com/ironworks/fitness-classes-rgp/' was loaded over HTTPS, but requested an insecure script 'http://localhost/autoSignUp/app.js'. This request has been blocked; the content must be served over HTTPS.
+ *  - wrap code into Chrome / Firefox extension
+ *    - should work
+ *  - compress and run code directly from bookmark
+ *    - size limitation?
  **/
 (function(){
 
+  // presets
   var userData = {
     isMember   : true, // user is a member, false if non-member
     firstName  : 'Logan',
@@ -314,10 +328,11 @@
   }
 
   /**
-   * @return {[type]}
+   * From the main page, click on the 'Information and Booking' button for the
+   * specified class
    */
   function chooseClass(){
-    var classes = document.getElementsByClassName('standard-fieldset');
+    var classes = document.querySelectorAll('fieldset.standard-fieldset');
 
     for(var i = 0; i < classes.length; i++){
       var classTitle = classes[i].getElementsByClassName('list-view-category-legend')[0].innerText;
@@ -335,7 +350,6 @@
    * Find the event button and click on it
    */
   function selectEvent(){
-    console.log(document.getElementsByClassName('shaded-section-header'));
     if(document.getElementsByClassName('shaded-section-header') &&
       document.getElementsByClassName('shaded-section-header')[0] &&
       document.getElementsByClassName('shaded-section-header')[0].innerText.trim() !== 'Confirm Booking Details'){
@@ -343,7 +357,7 @@
       return false;
     }
 
-    var memberCount = document.getElementById('pcount-pid-1-3138387');
+    var memberCount = document.getElementById('pcount-pid-1-3138387'); // TODO: this will likely not be consistent - figure out a different way!
 
     console.log('memberCount is ', memberCount)
 
@@ -355,9 +369,14 @@
     memberCount.value = 1;
 
     // TODO : Add functionality for non-members
-    // var nonMemberCount = document.getElementById('pcount-pid-1-3135790');
+    var nonMemberCount = document.getElementById('pcount-pid-1-3135790');
 
     var eventsTable = document.getElementById('offering-page-select-events-table');
+
+    if(!eventsTable){
+      alert('Can not find events table!');
+      return false;
+    }
 
     for (var i = 0, row; row = eventsTable.rows[i]; i++){
       var matchingRow = row.cells[0].innerText.indexOf(userData.targetTime) ? true : false;
